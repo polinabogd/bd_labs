@@ -75,10 +75,15 @@ order by maker;
 /*10. БД «Кораблі». Знайдіть класи, до яких входить лише один 
 корабель з усієї БД (врахувати також кораблі в таблиці Outcomes, яких 
 немає в таблиці Ships). Вивести: class. (Підказка: використовувати 
-оператор UNION та операцію EXISTS*/
-select `name`, class 
-from (select `name`, class, ROW_NUMBER() OVER (PARTITION BY `name`) 
-AS RowNumber
-from(select `name`, class from labor_sql.Ships union select ship, 
-null from labor_sql.Outcomes) T1) T2      
-where T2.RowNumber = 1;
+оператор UNION*/
+SELECT c.class
+FROM classes c
+ LEFT JOIN (
+ SELECT class, name
+ FROM ships
+ UNION
+ SELECT ship, ship
+ FROM outcomes
+) AS s ON s.class = c.class
+GROUP BY c.class
+HAVING COUNT(s.name) = 1
