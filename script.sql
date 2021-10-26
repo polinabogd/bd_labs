@@ -42,7 +42,7 @@ FROM labor_sql.printer;
 /*7. БД «Комп. фірма». Знайдіть кількість ПК та середню ціну для кож-
 ної моделі при умові, що середня ціна є меншою 800 дол.
 */
-SELECT model, AVG(price)
+SELECT model, COUNT(model) AS quantity, AVG(price)
 FROM labor_sql.pc
 GROUP BY model
 HAVING AVG(price) < 800;
