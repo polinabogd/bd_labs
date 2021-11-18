@@ -20,6 +20,7 @@ public class Trip {
     }
 
     public Trip(String type, String name, Integer addressID) {
+        this(null, type, name, addressID);
     }
 
     @Override

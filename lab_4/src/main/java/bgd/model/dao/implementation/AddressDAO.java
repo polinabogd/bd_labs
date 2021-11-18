@@ -16,7 +16,7 @@ public class AddressDAO implements AbstractDAO<Address> {
     private static final String CREATE = "INSERT student_project.item_adress" +
             "(`country`, `region`, `settlement`, `street`, `house`) VALUES (?, ?, ?, ?, ?)";
     private static final String UPDATE = "UPDATE student_project.item_adress" +
-            "SET country=?, region=?, settlement=?, street=?, house=?" + " WHERE id_adress=?";
+            " SET country=?, region=?, settlement=?, street=?, house=? WHERE id_adress=?";
     private static final String DELETE = "DELETE FROM student_project.item_adress WHERE id_adress=?";
 
     @Override
@@ -83,11 +83,12 @@ public class AddressDAO implements AbstractDAO<Address> {
     @Override
     public void update(Integer id, Address address) throws SQLException {
         try (PreparedStatement statement = ConnectionManager.getConnection().prepareStatement(UPDATE)) {
-            statement.setString(1, String.valueOf(address.getCountry()));
-            statement.setString(2, String.valueOf(address.getRegion()));
-            statement.setString(3, String.valueOf(address.getSettlement()));
-            statement.setString(4, String.valueOf(address.getStreet()));
-            statement.setString(5, String.valueOf(address.getHouse()));
+            statement.setString(1, address.getCountry());
+            statement.setString(2, address.getRegion());
+            statement.setString(3, address.getSettlement());
+            statement.setString(4, address.getStreet());
+            statement.setInt(5, address.getHouse());
+            statement.setInt(6, address.getId());
             statement.executeUpdate();
             System.out.println(statement);
         } catch (Exception e) {

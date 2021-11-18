@@ -13,12 +13,12 @@ import java.util.List;
 
 public class RatingDAO implements AbstractDAO<Rating> {
     private static final String GET_ALL = "SELECT * FROM student_project.trip_item_rating";
-    private static final String GET_BY_ID = "SELECT * FROM student_project.trip_item_rating WHERE id=?";
+    private static final String GET_BY_ID = "SELECT * FROM student_project.trip_item_rating WHERE id_trip_item_rating=?";
     private static final String CREATE = "INSERT student_project.trip_item_rating" +
-            "(`starsForPlacement`, `starsForPrices`, `starsInGeneral`, `itemID`) VALUES (?, ?, ?, ?)";
-    private static final String UPDATE = "UPDATE student_project.trip_item_rating" +
-            "SET starsForPlacement=?, starsForPrices=?, starsInGeneral=?, itemID=?" + " WHERE id=?";
-    private static final String DELETE = "DELETE FROM student_project.trip_item_rating WHERE id=?";
+            "(`stars_for_placement`, `stars_for_prices`, `stars_in_general`, `id_item`) VALUES (?, ?, ?, ?)";
+    private static final String UPDATE = "UPDATE student_project.trip_item_rating " +
+            "SET stars_for_placement=?, stars_for_prices=?, stars_in_general=?, id_item=? WHERE id_trip_item_rating=?";
+    private static final String DELETE = "DELETE FROM student_project.trip_item_rating WHERE id_trip_item_rating=?";
 
     @Override
     public List<Rating> findAll() throws SQLException {
@@ -51,11 +51,11 @@ public class RatingDAO implements AbstractDAO<Rating> {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 rating = new Rating(
-                        resultSet.getInt("id"),
-                        resultSet.getInt("starsForPlacement"),
-                        resultSet.getInt("starsForPrices"),
-                        resultSet.getInt("starsInGeneral"),
-                        resultSet.getInt("itemID")
+                        resultSet.getInt("id_trip_item_rating"),
+                        resultSet.getInt("stars_for_placement"),
+                        resultSet.getInt("stars_for_prices"),
+                        resultSet.getInt("stars_in_general"),
+                        resultSet.getInt("id_item")
                 );
             }
         } catch (Exception e) {
@@ -70,7 +70,7 @@ public class RatingDAO implements AbstractDAO<Rating> {
             statement.setString(1, String.valueOf(rating.getStarsForPlacement()));
             statement.setString(2, String.valueOf(rating.getStarsForPrices()));
             statement.setString(3, String.valueOf(rating.getStarsInGeneral()));
-            statement.setString(3, String.valueOf(rating.getItemID()));
+            statement.setString(4, String.valueOf(rating.getItemID()));
             statement.executeUpdate();
             System.out.println(statement);
         } catch (Exception e) {
@@ -81,10 +81,11 @@ public class RatingDAO implements AbstractDAO<Rating> {
     @Override
     public void update(Integer id, Rating rating) throws SQLException {
         try (PreparedStatement statement = ConnectionManager.getConnection().prepareStatement(UPDATE)) {
-            statement.setString(1, String.valueOf(rating.getStarsForPlacement()));
-            statement.setString(2, String.valueOf(rating.getStarsForPrices()));
-            statement.setString(3, String.valueOf(rating.getStarsInGeneral()));
-            statement.setString(3, String.valueOf(rating.getItemID()));
+            statement.setInt(1, rating.getStarsForPlacement());
+            statement.setInt(2, rating.getStarsForPrices());
+            statement.setInt(3, rating.getStarsInGeneral());
+            statement.setInt(4, rating.getItemID());
+            statement.setInt(5, rating.getId());
             statement.executeUpdate();
             System.out.println(statement);
         } catch (Exception e) {

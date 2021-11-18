@@ -13,12 +13,12 @@ import java.util.List;
 
 public class TripDAO implements AbstractDAO<Trip> {
     private static final String GET_ALL = "SELECT * FROM student_project.trip_item";
-    private static final String GET_BY_ID = "SELECT * FROM student_project.trip_item WHERE id=?";
+    private static final String GET_BY_ID = "SELECT * FROM student_project.trip_item WHERE id_item=?";
     private static final String CREATE = "INSERT student_project.trip_item" +
-            "(`type`, `name`, `addressID`) VALUES (?, ?, ?)";
-    private static final String UPDATE = "UPDATE student_project.trip_item" +
-            "SET type=?, name=?, addressID=?" + " WHERE id=?";
-    private static final String DELETE = "DELETE FROM student_project.trip_item WHERE id=?";
+            "(`item_category`, `name`, `id_adress`) VALUES (?, ?, ?)";
+    private static final String UPDATE = "UPDATE student_project.trip_item " +
+            "SET item_category=?, name=?, id_adress=? WHERE id_item=?";
+    private static final String DELETE = "DELETE FROM student_project.trip_item WHERE id_item=?";
 
     @Override
     public List<Trip> findAll() throws SQLException {
@@ -50,10 +50,10 @@ public class TripDAO implements AbstractDAO<Trip> {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 trip = new Trip(
-                        resultSet.getInt("id"),
-                        resultSet.getString("type"),
+                        resultSet.getInt("id_item"),
+                        resultSet.getString("item_category"),
                         resultSet.getString("name"),
-                        resultSet.getInt("addressID")
+                        resultSet.getInt("id_adress")
                 );
             }
         } catch (Exception e) {
@@ -78,9 +78,10 @@ public class TripDAO implements AbstractDAO<Trip> {
     @Override
     public void update(Integer id, Trip trip) throws SQLException {
         try (PreparedStatement statement = ConnectionManager.getConnection().prepareStatement(UPDATE)) {
-            statement.setString(1, String.valueOf(trip.getName()));
-            statement.setString(2, String.valueOf(trip.getType()));
-            statement.setString(3, String.valueOf(trip.getAddressID()));
+            statement.setString(1, trip.getName());
+            statement.setString(2, trip.getType());
+            statement.setInt(3, trip.getAddressID());
+            statement.setInt(4, trip.getId());
             statement.executeUpdate();
             System.out.println(statement);
         } catch (Exception e) {

@@ -20,6 +20,7 @@ public class Review {
     }
 
     public Review(String comment, Integer itemID, Integer userID) {
+        this(null, comment, itemID, userID);
     }
 
     @Override

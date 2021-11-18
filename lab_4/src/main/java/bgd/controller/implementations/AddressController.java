@@ -32,7 +32,7 @@ public class AddressController implements AbstractController<Address> {
     }
 
     @Override
-    public void delete(String login) throws SQLException {
-        service.delete(login);
+    public void delete(Integer id) throws SQLException {
+        service.delete(id);
     }
 }

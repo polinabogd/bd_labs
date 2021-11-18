@@ -15,7 +15,7 @@ public class SecurityDAO implements AbstractDAO<Security> {
         private static final String GET_BY_LOGIN = "SELECT * FROM student_project.security WHERE login=?";
         private static final String CREATE = "INSERT student_project.security" +
                 "(`login`, `password`) VALUES (?, ?)";
-        private static final String UPDATE = "UPDATE student_project.security" +
+        private static final String UPDATE = "UPDATE student_project.security " +
                 "SET password=? WHERE login=?";
         private static final String DELETE = "DELETE FROM student_project.security WHERE login=?";
 
@@ -72,8 +72,8 @@ public class SecurityDAO implements AbstractDAO<Security> {
         @Override
         public void update(String login, Security security) throws SQLException {
             try (PreparedStatement statement = ConnectionManager.getConnection().prepareStatement(UPDATE)) {
-                statement.setString(1, security.getLogin());
-                statement.setString(2, security.getPassword());
+                statement.setString(1, security.getPassword());
+                statement.setString(2, security.getLogin());
                 statement.executeUpdate();
                 System.out.println(statement);
             } catch (Exception e) {

@@ -24,6 +24,7 @@ public class Address {
     }
 
     public Address(String country, String region, String settlement, String street, Integer house) {
+        this(null, country,  region,  settlement,  street,  house);
     }
 
     @Override

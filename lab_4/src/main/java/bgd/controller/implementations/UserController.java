@@ -31,7 +31,7 @@ public class UserController implements AbstractController<User> {
     }
 
     @Override
-    public void delete(String login) throws SQLException {
-        service.delete(login);
+    public void delete(Integer id) throws SQLException {
+        service.delete(id);
     }
 }

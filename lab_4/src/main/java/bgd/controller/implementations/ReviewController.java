@@ -31,7 +31,7 @@ public class ReviewController implements AbstractController<Review> {
     }
 
     @Override
-    public void delete(String login) throws SQLException {
-        service.delete(login);
+    public void delete(Integer id) throws SQLException {
+        service.delete(id);
     }
 }

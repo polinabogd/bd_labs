@@ -23,6 +23,7 @@ public class User {
     }
 
     public User(String surname, String name, String email, String securityLogin) {
+        this(null, surname, name, email, securityLogin);
     }
 
     @Override

@@ -22,9 +22,7 @@ public class Rating {
     }
 
     public Rating(Integer starsForPlacement, Integer starsForPrices, Integer starsInGeneral, Integer itemID) {
-    }
-
-    public Rating(String comment, Integer itemID, Integer userID) {
+        this(null, starsForPlacement, starsForPrices, starsInGeneral, itemID);
     }
 
     @Override

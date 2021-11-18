@@ -12,12 +12,12 @@ import java.util.List;
 
 public class ReviewDAO implements AbstractDAO<Review> {
     private static final String GET_ALL = "SELECT * FROM student_project.trip_item_review";
-    private static final String GET_BY_ID = "SELECT * FROM student_project.trip_item_review WHERE id=?";
+    private static final String GET_BY_ID = "SELECT * FROM student_project.trip_item_review WHERE id_item_review=?";
     private static final String CREATE = "INSERT student_project.trip_item_review" +
-            "(`comment`, `itemID`, `userID`) VALUES (?, ?, ?)";
-    private static final String UPDATE = "UPDATE student_project.trip_item_review" +
-            "SET comment=?, itemID=?, userID=?" + " WHERE id=?";
-    private static final String DELETE = "DELETE FROM student_project.trip_item_review WHERE id=?";
+            "(`review_text`, `id_item`, `user_id`) VALUES (?, ?, ?)";
+    private static final String UPDATE = "UPDATE student_project.trip_item_review " +
+            "SET review_text=?, id_item=?, user_id=? WHERE id_item_review=?";
+    private static final String DELETE = "DELETE FROM student_project.trip_item_review WHERE id_item_review=?";
 
     @Override
     public List<Review> findAll() throws SQLException {
@@ -49,10 +49,10 @@ public class ReviewDAO implements AbstractDAO<Review> {
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 review = new Review(
-                        resultSet.getInt("id"),
-                        resultSet.getString("comment"),
-                        resultSet.getInt("itemID"),
-                        resultSet.getInt("userID")
+                        resultSet.getInt("id_item_review"),
+                        resultSet.getString("review_text"),
+                        resultSet.getInt("id_item"),
+                        resultSet.getInt("user_id")
                 );
             }
         } catch (Exception e) {
@@ -77,9 +77,10 @@ public class ReviewDAO implements AbstractDAO<Review> {
     @Override
     public void update(Integer id, Review review) throws SQLException {
         try (PreparedStatement statement = ConnectionManager.getConnection().prepareStatement(UPDATE)) {
-            statement.setString(1, String.valueOf(review.getComment()));
-            statement.setString(2, String.valueOf(review.getItemID()));
-            statement.setString(3, String.valueOf(review.getUserID()));
+            statement.setString(1, review.getComment());
+            statement.setInt(2, review.getItemID());
+            statement.setInt(3, review.getUserID());
+            statement.setInt(4, review.getId());
             statement.executeUpdate();
             System.out.println(statement);
         } catch (Exception e) {

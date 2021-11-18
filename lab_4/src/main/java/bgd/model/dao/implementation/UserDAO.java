@@ -14,9 +14,9 @@ public class UserDAO implements AbstractDAO<User> {
     private static final String GET_ALL = "SELECT * FROM student_project.trip_advisor_user";
     private static final String GET_BY_ID = "SELECT * FROM student_project.trip_advisor_user WHERE id=?";
     private static final String CREATE = "INSERT student_project.trip_advisor_user" +
-            "(`surname`, `name`, `email`, `securityLogin`) VALUES (?, ?, ?, ?)";
-    private static final String UPDATE = "UPDATE student_project.trip_advisor_user" +
-            "SET surname=?, name=?, email=?, securityLogin=?" + " WHERE id=?";
+            "(`surname`, `name`, `email`, `security_login`) VALUES (?, ?, ?, ?)";
+    private static final String UPDATE = "UPDATE student_project.trip_advisor_user " +
+            "SET surname=?, name=?, email=?, security_login=? WHERE id=?";
     private static final String DELETE = "DELETE FROM student_project.trip_advisor_user WHERE id=?";
 
     @Override
@@ -54,7 +54,7 @@ public class UserDAO implements AbstractDAO<User> {
                         resultSet.getString("surname"),
                         resultSet.getString("name"),
                         resultSet.getString("email"),
-                        resultSet.getString("securityLogin")
+                        resultSet.getString("security_login")
                 );
             }
         } catch (Exception e) {
@@ -80,10 +80,11 @@ public class UserDAO implements AbstractDAO<User> {
         @Override
         public void update(Integer id, User user) throws SQLException {
             try (PreparedStatement statement = ConnectionManager.getConnection().prepareStatement(UPDATE)) {
-                statement.setString(1, String.valueOf(user.getSurname()));
-                statement.setString(2, String.valueOf(user.getName()));
-                statement.setString(3, String.valueOf(user.getEmail()));
-                statement.setString(4, String.valueOf(user.getSecurityLogin()));
+                statement.setString(1, user.getSurname());
+                statement.setString(2, user.getName());
+                statement.setString(3, user.getEmail());
+                statement.setString(4, user.getSecurityLogin());
+                statement.setInt(5, user.getId());
                 statement.executeUpdate();
                 System.out.println(statement);
             } catch (Exception e) {

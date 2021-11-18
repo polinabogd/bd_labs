@@ -51,17 +51,16 @@ public class MyView {
         menu.put("54", this::updateReview);
         menu.put("55", this::deleteReview);
 
+        menu.put("61", this::getAllUsers);
+        menu.put("62", this::getUserById);
+        menu.put("63", this::createUser);
+        menu.put("64", this::updateUser);
+        menu.put("65", this::deleteUser);
+
     }
 
 
     //#########################################################################
-
-    private void outputMenu() {
-        System.out.println("\nMENU:");
-        for (Printable str : menu.values()) {
-            System.out.println(str);
-        }
-    }
 
     public final void show() {
         String input;
@@ -107,17 +106,19 @@ public class MyView {
     private void updateSecurity() throws SQLException {
         System.out.println("\nEnter login to update: ");
         String login = SCANNER.next();
-        Security security = getSecurityInputs();
+        System.out.println("Enter password: ");
+        String password = SCANNER.next();
+        Security security = new Security(login, password);
         security.setLogin(login);
         securityController.update(security.getLogin(), security);
-        System.out.println("Security with login: " + login + "was updated\n");
+        System.out.println("Security with login: " + login + " was updated\n");
     }
 
     private void deleteSecurity() throws SQLException {
         System.out.println("\nEnter login to delete account: ");
         String login = SCANNER.next();
         securityController.delete(login);
-        System.out.println("Account with login: " + login + "was deleted\n");
+        System.out.println("Account with login: " + login + " was deleted\n");
     }
 
     //##################################################################################
@@ -202,29 +203,17 @@ public class MyView {
     private void updateUser() throws SQLException {
         System.out.println("\nEnter ID to update: ");
         Integer id = SCANNER.nextInt();
-        System.out.println("Enter surname: ");
-        String surname = SCANNER.next();
-        System.out.println("Enter name: ");
-        String name = SCANNER.next();
-        System.out.println("Enter email: ");
-        String email = SCANNER.next();
-        System.out.println("Enter security login to update: ");
-        String securityLogin = SCANNER.next();
         User user = getUserInputs();
         user.setId(id);
-        user.setSurname(surname);
-        user.setName(name);
-        user.setEmail(email);
-        user.setSecurityLogin(securityLogin);
         userController.update(user.getId(), user);
-        System.out.println("User with ID = " + id + "was updated\n");
+        System.out.println("User with ID = " + id + " was updated\n");
     }
 
     private void deleteUser() throws SQLException {
         System.out.println("\nEnter ID to delete user: ");
         Integer id = SCANNER.nextInt();
         userController.delete(id);
-        System.out.println("User with ID = " + id + "was deleted\n");
+        System.out.println("User with ID = " + id + " was deleted\n");
     }
 
     //##############################################################################
@@ -262,7 +251,7 @@ public class MyView {
         Trip trip = getTripInputs();
         trip.setId(id);
         tripController.update(trip.getId(), trip);
-        System.out.println("Trip with ID = " + id + "was updated\n");
+        System.out.println("Trip with ID = " + id + " was updated\n");
     }
 
     private void deleteTrip() throws SQLException {
@@ -300,26 +289,14 @@ public class MyView {
         System.out.println("\n");
         Rating rating = getRatingInputs();
         ratingController.create(rating);
-        System.out.println("Game chat was successfully created!\n");
+        System.out.println("Rating was successfully created!\n");
     }
 
     private void updateRating() throws SQLException {
         System.out.println("\nEnter ID to update: ");
         Integer id = SCANNER.nextInt();
-        System.out.println("Enter starsForPlacement: ");
-        Integer starsForPlacement = SCANNER.nextInt();
-        System.out.println("Enter starsForPrices: ");
-        Integer starsForPrices = SCANNER.nextInt();
-        System.out.println("Enter starsInGeneral: ");
-        Integer starsInGeneral = SCANNER.nextInt();
-        System.out.println("Enter itemID: ");
-        Integer itemID = SCANNER.nextInt();
         Rating rating = getRatingInputs();
         rating.setId(id);
-        rating.setStarsForPlacement(starsForPlacement);
-        rating.setStarsForPrices(starsForPrices);
-        rating.setStarsInGeneral(starsInGeneral);
-        rating.setItemID(itemID);
         ratingController.update(rating.getId(), rating);
         System.out.println("Rating with ID = " + id + " was updated\n");
     }
@@ -363,17 +340,8 @@ public class MyView {
     private void updateReview() throws SQLException {
         System.out.println("\nEnter ID to update: ");
         Integer id = SCANNER.nextInt();
-        System.out.println("\nEnter comment: ");
-        String  comment = SCANNER.next();
-        System.out.println("Enter itemID: ");
-        Integer itemID = SCANNER.nextInt();
-        System.out.println("Enter userID: ");
-        Integer userID = SCANNER.nextInt();
         Review review = getReviewInputs();
         review.setId(id);
-        review.setComment(comment);
-        review.setItemID(itemID);
-        review.setUserID(userID);
         reviewController.update(review.getId(), review);
         System.out.println("Review with ID = " + id + " was updated\n");
     }
