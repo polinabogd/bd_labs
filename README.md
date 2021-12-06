@@ -1,4 +1,4 @@
-# Stored Procedures, Triggers? Functions in MySQL
+# Stored Procedures, Triggers, Functions in MySQL
 
 ## Database of electronic resources with books
 ### STORED PROCEDURES
