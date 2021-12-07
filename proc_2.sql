@@ -9,7 +9,7 @@ begin
 	set counter=0, str='NoName';
 while counter<10 do
 	set counter = counter+1;
-		insert into book(name, catalog_tree_id, user_has_book_id ) values (concat(str,counter), counter, counter);
+		insert into book(name, catalog_tree_id ) values (concat(str,counter), counter);
 end while;
 END //
 DELIMITER ;
